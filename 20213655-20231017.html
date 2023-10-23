@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  
+ </head>
+ <script>
+   var mp4Files=[  
+"v0201ag10000caikc13c77udap1dkdb0.mp4",  
+"v02004a40000bproicl7gl1h25fgjoeg.mp4 ",  
+"v02004a50000bpmepbubn5v2f7sn39og.mp4",
+"v02004a80000bn2mnkonrm1ii1qe45bg.mp4",  
+"v02004ac0000bt20l8lo827ubql9vlt0.mp4",
+"v02004b40000bnac1ktjfrmsnk5rbis0.mp4", 
+ "v02004b40000bo039k481ukr122vand0.mp4",
+
+];
+   </script>
+ <body>
+  <video id="myvideo"></video>
+  <div id="UI">
+  <button id="play">Play</button>
+  <button id="stop">Stop</button>
+  <button id="next">Next</button>
+  Tm:<input type="text" value="0" id="currentTime">
+  select:<input type="text" value="0" id="selectVideo">
+  <button id="confirm">Confirm</button>
+  </div>
+  <script>
+  var myvideo = document.getElementById("myvideo");
+	  var i = 0;
+	  myvideo.src = "video/"+mp4Files[i];
+	 
+	  document.getElementById("play").onclick = function(){
+		  if(!parseInt(currentTimeDom.value)){
+			  currentTimeDom.value =0;
+			  console.log("×");
+		  }
+		  myvideo.currentTime = currentTimeDom.value;
+		  myvideo.play();
+		 
+	  };
+      document.getElementById("stop").onclick = function(){
+		  myvideo.pause();
+	  };
+	  document.getElementById("next").onclick = function(){
+		  if(i==mp4Files.length){
+			  i = -1;
+		  }
+		  i++;
+		  myvideo.src = "video/"+mp4Files[i];
+	  };
+	  document.getElementById("confirm").onclick = function(){
+		  myvideo.selectVideo = s.value;
+		 if(s.value!=null&&s.value<mp4Files.length-1){
+			 i=s.value;}
+			myvideo.src = "video/"+mp4Files[i];
+			
+	  };
+	  //下面控制UI界面的当前时间的框框
+	  var currentTimeDom = document.getElementById("currentTime");
+        currentTimeDom.value = 500;
+	  var s= document.getElementById("selectVideo");
+		
+	  </script>
+ </body>
+</html>
