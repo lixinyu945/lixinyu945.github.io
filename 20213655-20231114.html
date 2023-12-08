@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>李新雨的自学系统</title>
+  <style type="text/css">
+div#logo{
+  background-color:red;
+  color:white;
+  position:absolute;
+  right:0;
+  top:0;
+  font-size: 3em;
+  padding: 10px 20px;
+  }
+  div#showTime{
+  background-color:blue;
+  color:white;
+  position:absolute;
+  left:0;
+  top:0;
+  font-size: 3em;
+  padding: 10px 20px;
+  }
+  input{
+	font-size: 1.5em;
+	margin-right: 0.5em;
+  }
+  div#duration{
+    position: absolute;
+    left: 30px;
+    top: 4em;
+  }
+  div#duration input{
+    display: block; 
+    margin-top: 0.5em;
+  }
+ button#switch {
+   font-size:20px;
+    width: 100px;
+    background-color: black;
+    color:rgb(100, 255, 100);
+    cursor: pointer;
+  }
+  </style>
+ </head>
+   <script src="player.js"></script>
+ <body>
+	<div id="showTime"></div>
+	<div id="logo">
+		</div>
+  <video id="myvideo"></video>
+  <div id="duration"></div>
+  <div id="UI">
+  <button id="play">Play</button>
+  <button id="stop">Stop</button>
+  <button id="next">Next</button>
+  <button id="switch">切换音频</button>
+  select:<input type="text" value="0" id="selectVideo">
+  <button id="confirm">Confirm</button>
+  </div>
+  <script>
+    
+	var Model = {};
+	Model.UI = {};
+	
+	Model.i = 0;
+	Model.isVideo = true;
+	Model.myaudio = new Audio;
+ 
+      document.getElementById("stop").onclick = function(){
+        if(Model.isVideo){
+      Model.myMedia=Model.UI.myvideoDom;
+    
+        }else{
+          Model.myMedia=Model.myaudio;
+            
+        }
+		
+        Model.myMedia.pause();
+	  };
+	  document.getElementById("next").onclick = function(){
+      if(Model.isVideo){
+		let myvideo =Model.UI.myvideoDom;
+		let i =Model.i;
+		
+		  if(i==mp4Files.length){
+			  i = -1;
+		  }
+		  i++;
+		  Model.i=i;
+		  myvideo.src = "video/"+mp4Files[i];
+		  Model.UI.logoDom.textContent = '第' + (i+1) +'个'+'/' +'共'+mp4Files.length ;
+    }else{
+      let myaudio =Model.myaudio;
+		  let i =Model.i;
+		
+		  if(i==mp3Files.length){
+			  i = -1;
+		  }
+		  i++;
+		  Model.i=i;
+		  myaudio.src = "mp3/"+mp3Files[i];
+		  Model.UI.logoDom.textContent = '第' + (i+1) +'个'+'/' +'共'+mp3Files.length ;
+    }
+	  };
+	  document.getElementById("confirm").onclick = function(){
+		  myvideo.selectVideo = parseInt(s.value);
+		 if(parseInt(s.value)!=null&&s.value<mp4Files.length-1){
+			 i=parseInt(s.value);}
+			myvideo.src = "video/"+mp4Files[i];
+			logoDom.textContent = '第' + (i+1) +'个'+'/' +'共'+mp4Files.length ;
+	  };
+	  //下面控制UI界面的当前时间的框框
+      Model.UI.myvideoDom= document.getElementById("myvideo");
+      Model.UI.myvideoDom.src = "video/"+mp4Files[2];
+      Model.myaudioDom = document.getElementById("myaudio");
+      Model.myaudio.src = "mp3/"+mp3Files[2];
+	  Model.UI.showTimeDom = document.getElementById("showTime");
+	  Model.UI.playDom = document.getElementById("play");
+	  Model.UI.nextDom = document.getElementById("next");
+	  Model.UI.logoDom = document.getElementById("logo");
+	  Model.UI.stopDom = document.getElementById("stop");
+	  Model.UI.confirmDom = document.getElementById("confirm");
+	  Model.UI.durationDom = {};//duration用来作为9个时间控制UI的容器，
+		 //视频UI全屏设置
+	 Model.UI.browserWidth = document.body.clientWidth;
+	 Model.UI.myvideoDom.style.width = Model.UI.browserWidth + 'px';
+	 Model.UI.logoDom.textContent ='第'+ (Model.i+1) +'个'+ '/' +mp4Files.length ;
+        Model.UI.showTimeDom.value = 0;
+		window.setInterval(function(){
+            let myMedia;
+            let showTime=Model.UI.showTimeDom;
+			let logoDom =Model.UI.logoDom;
+            if(Model.isVideo){
+               myMedia  = Model.UI.myvideoDom;
+               
+            }else{
+                myMedia = Model.myaudio;
+            }
+			
+			
+			let i =Model.i;
+			let showTimeString = parseInt(myMedia.currentTime)+'s';
+			showTimeString +=  '/'+parseInt(myMedia.duration)+'s';
+			showTime.textContent =showTimeString ;
+		},1000);
+
+		Model.UI.logoDom.textContent = (Model.i+1) + '/' +mp4Files.length;
+		//异步处理
+		Model.UI.playDom.onclick = function(e){
+		
+		  if(Model.isVideo){
+      Model.myMedia=Model.UI.myvideoDom;
+    
+        }else{
+          Model.myMedia=Model.myaudio;
+            
+        }
+      Model.myMedia.play(); 
+		}
+	  var s= document.getElementById("selectVideo");
+		//动态生成九个按钮用于控制进度
+		Model.UI.durationDom = document.getElementById('duration');
+		Model.UI.durationDom.item = [];
+		for(let i=0;i<9;i++){
+			let tempDom = document.createElement('input');
+			tempDom.type = 'button';
+			tempDom.value += 'NO.' +(i+1);
+			Model.UI.durationDom.item [i] = tempDom; 
+			Model.UI.durationDom.appendChild(tempDom);
+		}
+		for(let i=0;i<9;i++){
+			Model.UI.durationDom.item [i].onclick = function(){
+        if(Model.isVideo){
+			Model.UI.myvideoDom.currentTime = i* Model.UI.myvideoDom.duration / 9;
+        }else{
+          Model.myaudio.currentTime = i* Model.myaudio.duration / 9;
+        }
+			}
+		}
+        //让切换到视频和音频按钮有效
+        Model.UI.switchDom = document.getElementById("switch");
+        Model.UI.switchDom.onclick = function(){
+            if(Model.isVideo ){
+                this.textContent ="切换->视频";
+                Model.UI.myvideoDom.style.visibility="hidden";
+            }
+            else{
+                this.textContent ="切换->音频";
+                Model.UI.myvideoDom.style.visibility="";
+            }
+            Model.isVideo = !Model.isVideo;
+        }
+	  </script>
+ </body>
+</html>
