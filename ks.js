@@ -5,7 +5,7 @@ var mediaData = {
         peopleName:["李健宏","朱红燕","李新雨","廖蓓林","陈智豪"],
     }],
     podPath: "https://jxzy-dmxy.jxstnu.edu.cn/",
-    videoPath: "d:/media/mp4Files/",
+    videoPath: "https://jxzy-dmxy.jxstnu.edu.cn/tedVideos/",
     podFileStruct: [{
         fileName: "LinuxCMD-1.mp3",
         title: ["No.1 What is the shell?",
